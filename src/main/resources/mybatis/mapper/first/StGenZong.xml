@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spring.dataserve.mapper.first.StGenZong" >
+    
+    <select id="getdata" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+        select id,title,cate_id,author,pubtime,keyword,`repeat` from stang_zhongjiao_genzong 
+        <where>
+            1 = 1
+            <if test="keyword!=null and keyword!=''">
+                and keyword = #{keyword}
+            </if>
+            <if test="repeat!=null and repeat!=''">
+                and `repeat` = ${repeat}
+            </if>
+        </where>
+        order by pubtime DESC
+        limit ${skip},${pagen};
+    </select>
+    
+    <select id="getpage" resultType="int">
+        select count(0) from stang_zhongjiao_genzong
+        <where>
+            1 = 1
+            <if test="keyword!=null and keyword!=''">
+                and keyword = #{keyword}
+            </if>
+            <if test="repeat!=null and repeat!=''">
+                and `repeat` = ${repeat}
+            </if>
+        </where>
+        ;
+    </select>
+    
+    <select id="getdatabyid" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+        select info from stang_zhongjiao_genzong where id = ${id};
+    </select>
+    
+    <update id="setrepeattrue" parameterType="java.util.HashMap">
+        update stang_zhongjiao_genzong set `repeat` = 1 where id = ${id};
+    </update>
+ 
+</mapper>
